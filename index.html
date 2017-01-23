@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="starWarsApp">
+    <head>
+        <!--<base href="/" />-->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src="assets/libs/angular.min.js"></script>
+        <script src="assets/libs/angular-route.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="css/style.css" rel="stylesheet" />
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="controllers/app.js"></script>
+    </head>
+    <body>
+        <div>
+            <div class="container" id="header">
+                <img class="logo" height="117" src="assets/img/logo.png" width="171">
+                <div>
+                    <hr>
+                </div>
+                <div ng-show="isNavBarVisible">
+                    <ul class="nav nav-pills nav-justified" ng-controller="navBarController">
+                        <li ng-class="{ active: isNavBarActive(tab.name)}" ng-repeat="tab in tabsData"><a href="{{tab.path}}">{{tab.name | uppercase}}</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <hr>
+                </div>
+            </div>
+            
+            <div class="container" id="mainContent" ng-view>
+            </div>
+            
+            <div id="footer">
+                <div>
+                    <hr>
+                </div> 
+                <div class="container">
+                    <ul class="list-inline" id="footerList" >
+                        <li><img height="33" src="assets/img/footer_logo.png" width="96"/></li>
+                        <li><a href="https://www.robosoftin.com">TERMS OF USE</a></li>
+                        <li><a href="https://www.robosoftin.com">LEGAL NOTICES</a></li>
+                        <li><a href="https://www.robosoftin.com">PRIVACY POLICY</a></li>
+                        <li><a href="https://www.robosoftin.com">STAR WARS HELPDESK</a></li>
+                        <li><a href="https://www.robosoftin.com">STAR WARS AT DISNEY STORE</a></li>
+                    </ul>
+                    
+                    <p class="container text-center" id="copyright_text">TM & © Lucasfilm Ltd. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

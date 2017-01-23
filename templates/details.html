@@ -1,0 +1,16 @@
+<div class="details-page clearfix">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 details-image-div">
+        <img class="details-image" ng-src="{{detailsData.imgSrc}}">
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <h1 class="details-title">{{detailsData.name || detailsData.title}}</h1>
+        <div>
+            <table>
+                <tr ng-repeat="details in detailslist">
+                    <td>{{details.key}}</td>
+                    <td>{{details.value}}</td> 
+            </table>
+        </div>
+    </div>
+</div>

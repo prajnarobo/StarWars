@@ -1,0 +1,232 @@
+html {
+    position:relative; 
+    min-height: 100%;
+    margin:0;
+    padding:0;
+}
+
+body {
+    margin:0;
+    padding:0;
+    background-attachment: fixed;
+    background-image: url("../assets/img/background.png");
+    background-size: cover; 
+}
+
+div{
+    padding: 0;
+}
+
+hr {
+    background-color: #054979;
+    border: none;
+    height: 1px;
+    color: #054979;
+    margin: 0;
+}
+
+ul, li {
+    list-style: none;
+    /*list-style-type: none;*/
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+li {
+    color: white;
+}
+
+a, a:visited, a:focus, a:hover {
+    text-decoration: none;
+}
+
+.list {
+    font-size: 18px;
+    color: white;
+    margin: 0px;
+    padding: 0px;
+}
+
+.list ul {
+    overflow: auto;
+}
+
+.list li {
+    list-style: none;
+    /*list-style-type: none;*/
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    color: white;
+}
+
+.list li a, .list li a:visited, .list li a:focus {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+}
+
+.list li a:hover {
+    background-color: rgba(5, 73, 121, 0.5);
+    color: white;
+}
+
+.prevNextButtonsDiv {
+    text-align: center;
+}
+
+.prevNextButtonsDiv>.btn-primary {
+    border-radius: 0px;
+    /*padding: 10px 25px;*/
+    background-color: #054979;
+    border-color: #054979;
+    color: white;
+    margin: 5px;
+    width: 150px;
+}
+
+.nextButton {
+    border-radius: 0px;
+    padding: 10px 25px;
+    background-color: #054979;
+    border-color: #054979;
+    /*box-shadow: none;*/
+    color: white;
+}
+
+#homeList li a, #homeList li a:visited, #homeList li a:focus, #homeList li a:hover {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+}
+
+.nav-pills>li>a {
+    border-radius: 0px;
+    color: white;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    background-color: rgba(5, 73, 121, 0.8);
+    border-radius: 0px;
+    color: white;
+}
+
+.nav-pills>li>a:hover, .nav-pills>li>a:focus, .nav-pills>li>a:visited {
+    background-color: rgba(5, 73, 121, 0.5);
+    border-radius: 0px;
+    color: white;
+}
+
+.logo {
+    display: block;
+    margin: auto;
+    padding: 20px 0px
+}
+
+#header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 160px;
+    overflow: hidden;
+}
+
+#mainContent {
+    position: absolute;
+    left: 0;
+    top: 160px;
+    right: 0;
+    bottom:120px;
+    overflow: auto;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:120px;
+    overflow: hidden;
+}
+
+#footerList li{
+    color: #054979;
+    font-size: 10px;
+    margin: 0px 5px;
+}
+
+#footerList {
+    margin: 24px 10px 20px 10px;
+}
+
+#copyright_text {
+    margin: 10px;
+    font-size: 10px;
+}
+
+.menuImage{
+    width: 75%;
+}
+
+
+.details-page{
+    background-color: rgba(5, 73, 121, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.details-image-div{
+    
+    /*position: fixed;
+    height:100%;
+    background-repeat: no-repeat;
+    background-size: contain;*/
+}
+
+.details-image{
+    position: fixed;
+    width: 20%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.details-title{
+    color: white;
+    font-size: 30px;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%
+}
+
+td{
+    color: white;
+    font-size: 18px;
+    word-wrap: break-word;
+}
+
+td:nth-child(1){
+    color: #a5c1d3;
+}
+
+/* scroll bar*/
+::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: #00A8FF;
+  border-radius: 6px;
+}
+
+.clearfix {
+    overflow: auto;
+    zoom: 1;
+}

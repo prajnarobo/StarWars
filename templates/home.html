@@ -1,0 +1,10 @@
+<ul class="list-inline" id="homeList">
+    <li class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-repeat="tab in tabsData">
+        <a href="{{tab.path}}">
+            <div ng-init="imgSrc=tab.logo" ng-mouseover="imgSrc=tab.hoverLogo" ng-mouseout="imgSrc=tab.logo">
+                <img class="menuImage" ng-src="{{imgSrc}}"/>
+                <center>{{tab.name | uppercase }}</center>
+            </div>
+        </a>
+    </li>
+</ul>
