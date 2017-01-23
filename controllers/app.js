@@ -21,14 +21,11 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
        }
    }
 })
-.factory("detailsPageService", function($http, $location){
+.factory("detailsPageService", function($http, $location, $rootScope){
    return {
        getDetailsData : function(){
-           return $http.get("http://swapi.co/api" + $location.path()).then(function (response) {
-               console.log("Details Data - " + response.data);
-               var detailsResponse = response.data;
-               console.log("Image Url - " + "https://www.googleapis.com/customsearch/v1?key=AIzaSyBisQfBBU8MfZrAmOb71VQ89OG9TC969E0&cx=003815258484784381351:ma5agjqx0mi&q=" + (detailsResponse.name || detailsResponse.title)  + "&imgSize=large&num=1&fileType=jpg" + $location.path());
-               return $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyBisQfBBU8MfZrAmOb71VQ89OG9TC969E0&cx=003815258484784381351:ma5agjqx0mi&q=" + (detailsResponse.name || detailsResponse.title)  + "&imgSize=large&num=1&fileType=jpg" + $location.path()).then(function(response){
+               var detailsResponse = $rootScope.detailsData;
+               return $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyBisQfBBU8MfZrAmOb71VQ89OG9TC969E0&cx=003815258484784381351:ma5agjqx0mi&q=" + (detailsResponse.name || detailsResponse.title)  + "&imgSize=large&num=1&fileType=jpg").then(function(response){
                    detailsResponse.imgSrc = response.data.items[0].pagemap.cse_image[0].src;
                    console.log("Details Image Data - " + detailsResponse.imgSrc);
                    return detailsResponse;
@@ -37,7 +34,6 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                    detailsResponse.imgSrc = "";
                    return detailsResponse;
                });
-           })
        }
    }
 })
@@ -109,57 +105,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                                 }
                             }
                        })
-                           .when("/films/:id", {
-                           templateUrl: "templates/details.html",
-                           controller: "detailsController",
-                           controllerAs: "detailsCtrl",
-                           resolve: {
-                                detailsData: function(detailsPageService){
-                                    return detailsPageService.getDetailsData();
-                                }
-                            }
-                       })
-                           .when("/species/:id", {
-                           templateUrl: "templates/details.html",
-                           controller: "detailsController",
-                           controllerAs: "detailsCtrl",
-                           resolve: {
-                                detailsData: function(detailsPageService){
-                                    return detailsPageService.getDetailsData();
-                                }
-                            }
-                       })
-                           .when("/planets/:id", {
-                           templateUrl: "templates/details.html",
-                           controller: "detailsController",
-                           controllerAs: "detailsCtrl",
-                           resolve: {
-                                detailsData: function(detailsPageService){
-                                    return detailsPageService.getDetailsData();
-                                }
-                            }
-                       })
-                           .when("/people/:id", {
-                           templateUrl: "templates/details.html",
-                           controller: "detailsController",
-                           controllerAs: "detailsCtrl",
-                           resolve: {
-                                detailsData: function(detailsPageService){
-                                    return detailsPageService.getDetailsData();
-                                }
-                            }
-                       })
-                           .when("/starships/:id", {
-                           templateUrl: "templates/details.html",
-                           controller: "detailsController",
-                           controllerAs: "detailsCtrl",
-                           resolve: {
-                                detailsData: function(detailsPageService){
-                                    return detailsPageService.getDetailsData();
-                                }
-                            }
-                       })
-                           .when("/vehicles/:id", {
+                           .when("/details", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl",
@@ -199,6 +145,10 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
         console.log("prevUrl - " + $scope.prevUrl);
     }
     
+    $scope.setDetailsData = function(selectedItemDetails){
+        $rootScope.detailsData = selectedItemDetails;
+    };
+    
     $scope.getPreviousListData = function () {
         console.log($scope.prevUrl);
         $http.get($scope.prevUrl).then(successCallback, errorCallback);
@@ -216,7 +166,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
             var detailsArray = [];
 
      if (detailsData) {
-            $scope.detailsData = detailsData;
+            $rootScope.detailsData = detailsData;
             var item;
             for (item in detailsData) {
                 if (typeof detailsData[item] === 'string') {
@@ -229,4 +179,4 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
             console.log(detailsArray);
             $scope.detailslist = detailsArray;
         }
-});
+})
