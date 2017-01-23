@@ -31,7 +31,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                    return detailsResponse;
                },
                function(response){
-                   detailsResponse.imgSrc = "";
+                   detailsResponse.imgSrc = "../assets/img/notfoundSW.jpg";
                    return detailsResponse;
                });
        }

@@ -42,10 +42,11 @@ a, a:visited, a:focus, a:hover {
 }
 
 .list {
+    overflow: auto;
     font-size: 18px;
     color: white;
     margin: 0px;
-    padding: 0px;
+    padding: 0px 0px 50px 0px;
 }
 
 .list ul {
@@ -73,7 +74,12 @@ a, a:visited, a:focus, a:hover {
 }
 
 .prevNextButtonsDiv {
+    position: fixed;
+    bottom: 120px;
+    left: 0;
+    right: 0;
     text-align: center;
+    overflow: hidden;
 }
 
 .prevNextButtonsDiv>.btn-primary {
@@ -229,4 +235,11 @@ td:nth-child(1){
 .clearfix {
     overflow: auto;
     zoom: 1;
+}
+
+@media all and (max-width : 768px){
+    .details-image{
+    position:static;
+    width: 50%%;
+}
 }
