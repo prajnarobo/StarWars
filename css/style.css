@@ -107,9 +107,20 @@ a, a:visited, a:focus, a:hover {
     color: white;
 }
 
+.nav-pills {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.nav-justified>li>a {
+    margin-bottom: 0px;
+    text-align: center;
+}
+
 .nav-pills>li>a {
     border-radius: 0px;
     color: white;
+    /*display:inline-block; - not required as it will reduce clickable area in larger screens*/
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
@@ -176,7 +187,6 @@ a, a:visited, a:focus, a:hover {
     width: 75%;
 }
 
-
 .details-page{
     background-color: rgba(5, 73, 121, 0.5);
     width: 100%;
@@ -239,7 +249,11 @@ td:nth-child(1){
 
 @media all and (max-width : 768px){
     .details-image{
-    position:static;
-    width: 50%%;
-}
+        position:static;
+        width: 50%%;
+    }
+    .nav-pills {
+        display:flex;
+        padding-bottom: 12px;
+    }
 }
