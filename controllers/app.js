@@ -21,18 +21,93 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
        }
    }
 })
-.factory("detailsPageService", function($http, $location, $rootScope){
+.factory("detailsPageService", function($http, $rootScope, $route){
    return {
        getDetailsData : function(){
-               var detailsResponse = $rootScope.detailsData;
-               return $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyBisQfBBU8MfZrAmOb71VQ89OG9TC969E0&cx=003815258484784381351:ma5agjqx0mi&q=" + (detailsResponse.name || detailsResponse.title)  + "&imgSize=large&num=1&fileType=jpg").then(function(response){
-                   detailsResponse.imgSrc = response.data.items[0].pagemap.cse_image[0].src;
+           var detailsResponse = $rootScope.detailsData;
+           var details = {
+               imgSrc: "../assets/img/notfoundSW.jpg",
+               name: "",
+               data: {}
+           };
+           switch($route.current.params.type)
+           {
+                case "films" : details.name = detailsResponse.title;
+                   details.data.Opening_Crawl = detailsResponse.opening_crawl;
+                   details.data.Director = detailsResponse.director;
+                   details.data.Producer = detailsResponse.producer;
+                   details.data.Characters = detailsResponse.characters;
+                   details.data.Planets = detailsResponse.planets;
+                   details.data.Species = detailsResponse.species;
+                   details.data.Starships = detailsResponse.starships;
+                   details.data.Vehicles = detailsResponse.vehicles;
+                   break;
+                   
+                case "species" : details.name = detailsResponse.name;
+                   details.data.Classification = detailsResponse.classification;
+                   details.data.Designation = detailsResponse.designation;
+                   details.data.Language = detailsResponse.language;
+                   details.data.Average_Height = detailsResponse.average_height;
+                   details.data.Average_Lifespan = detailsResponse.average_lifespan;
+                   details.data.Skin_Color = detailsResponse.skin_colors;
+                   details.data.Hair_Color = detailsResponse.hair_colors;
+                   details.data.Characters = detailsResponse.people; 
+                   details.data.Films = detailsResponse.films; 
+                   break;
+                   
+                case "planets" : details.name = detailsResponse.name;
+                   details.data.Rotation_Period = detailsResponse.rotation_period;
+                   details.data.Orbital_Period = detailsResponse.orbital_period;
+                   details.data.Diameter = detailsResponse.diameter;
+                   details.data.Surface_Water = detailsResponse.surface_water;
+                   details.data.Films = detailsResponse.films;
+                   details.data.Residents = detailsResponse.residents;
+                   break;
+                   
+                case "people" : details.name = detailsResponse.name;
+                   details.data.Birth_Year = detailsResponse.birth_year;
+                   details.data.Height = detailsResponse.height;
+                   details.data.Mass = detailsResponse.mass;
+                   details.data.Species = detailsResponse.species;
+                   details.data.Films = detailsResponse.films;
+                   break;
+                   
+                case "starships" : details.name = detailsResponse.name;
+                   details.data.Model = detailsResponse.model;
+                   details.data.Starship_Class = detailsResponse.starship_class;
+                   details.data.Manufacturer = detailsResponse.manufacturer;
+                   details.data.Cost = detailsResponse.cost_in_credits;
+                   details.data.Length = detailsResponse.length;
+                   details.data.Crew = detailsResponse.crew;
+                   details.data.Passengers = detailsResponse.passengers;
+                   details.data.Films = detailsResponse.films; 
+                   details.data.Pilots = detailsResponse.pilots; 
+                   break;
+                   
+               case "vehicles" : details.name = detailsResponse.name;
+                   details.data.Model = detailsResponse.model;
+                   details.data.Class = detailsResponse.vehicle_class;
+                   details.data.Manufacturer = detailsResponse.manufacturer;
+                   details.data.Cost = detailsResponse.cost_in_credits;
+                   details.data.Length = detailsResponse.length;
+                   details.data.Crew = detailsResponse.crew;
+                   details.data.Passengers = detailsResponse.passengers;
+                   details.data.Films = detailsResponse.films;
+                   break;
+           }
+           
+           
+               return $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyCKER-MMdjjmtlRNA_9QX7x_kHL7f07qVw&cx=000151646051229800399:8kz0uivdlxa&q=" + (detailsResponse.name || detailsResponse.title)  + "&imgSize=large&num=1&fileType=jpg").then(function(response){
+                   console.log($route.current.params.type);
+                   
+                   details.imgSrc = response.data.items[0].pagemap.cse_image[0].src;
                    console.log("Details Image Data - " + detailsResponse.imgSrc);
-                   return detailsResponse;
+                   return details;
                },
                function(response){
-                   detailsResponse.imgSrc = "../assets/img/notfoundSW.jpg";
-                   return detailsResponse;
+                   console.log($route.current.params.type);
+                   //details.imgSrc = "../assets/img/notfoundSW.jpg";
+                   return details;
                });
        }
    }
@@ -105,7 +180,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                                 }
                             }
                        })
-                           .when("/details", {
+                           .when("/details/:type", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl",
@@ -163,20 +238,35 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
     $rootScope.isNavBarVisible = true;
     $scope.path = $location.path();
     
-            var detailsArray = [];
+    var detailsArray = [];
 
-     if (detailsData) {
+     if (detailsData && detailsData.data) {
             $rootScope.detailsData = detailsData;
-            var item;
-            for (item in detailsData) {
-                if (typeof detailsData[item] === 'string') {
-                    var description = {};
-                    description['key'] = item.replace("_", " ");
-                    description['value'] = detailsData[item];
-                    detailsArray.push(description);
-                }
+            //var item;
+            //for (item in detailsData.data) {
+            //    if (typeof detailsData.data[item] === 'string' || typeof detailsData.data[item] === 'array') {
+            //        var description = {};
+            //        description['key'] = item.replace("_", " ");
+            //        description['value'] = detailsData[item];
+            //        detailsArray.push(description);
+            //    }
+            //}
+            //console.log(detailsArray);
+            //$scope.detailslist = detailsArray;
+         
+            for (var item in detailsData.data) {
+                console.log(typeof detailsData.data[item]);
+                
+                var description = {};
+                description['key'] = item.replace("_", " ");
+                description['value'] = detailsData.data[item];
+                detailsArray.push(description);
             }
             console.log(detailsArray);
             $scope.detailslist = detailsArray;
+         
+         console.log($rootScope.detailsData);
+         //console.log(detailsData.data);
+         //$scope.detailslist = detailsData.data;
         }
 })

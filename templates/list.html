@@ -2,7 +2,7 @@
     <div class="list">
         <ul>
             <li ng-repeat="listItem in listData">
-                <center><a href="#/details" ng-click="setDetailsData(listItem)" >{{listItem.name || listItem.title}}</a></center>
+                <center><a href="#/details{{path}}" ng-click="setDetailsData(listItem)" >{{listItem.name || listItem.title}}</a></center>
             </li>
         </ul>
     </div>
