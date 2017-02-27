@@ -1,5 +1,5 @@
 var myApp = angular.module("starWarsApp", ["ngRoute"])
-.run(function($rootScope){
+.run(function($rootScope, $window, $location){
     $rootScope.isNavBarVisible = false;
     $rootScope.tabsData = [
         { name: "films", path: "#/films", logo: "assets/img/topics/films_normal.png", hoverLogo: "assets/img/topics/films_pressed.png" },
@@ -9,6 +9,17 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
         { name: "starships", path: "#/starships", logo: "assets/img/topics/droids_normal.png", hoverLogo: "assets/img/topics/droids_pressed.png" },
         { name: "vehicles", path: "#/vehicles", logo: "assets/img/topics/vehicles_normal.png", hoverLogo: "assets/img/topics/vehicles_pressed.png" }
     ];
+
+    $rootScope.$on('$routeChangeSuccess', function () {
+        $window.ga('send', {
+            'hitType': 'screenview',
+            'appName' : 'starwars',
+            'screenName' : $location.url(),
+            'hitCallback': function() {
+                console.log('GA hitCallback sent!');
+            }
+        }); 
+    });
 })
 .factory("listPageService", function($http, $location){
    return {
@@ -16,7 +27,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
            console.log("Path - " + $location.path());
            return $http.get("http://swapi.co/api" + $location.path()).then(function (response) {
                console.log("Result - " + response.data);
-               return response.data;
+               return response;
            })
        }
    }
@@ -26,7 +37,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
        getDetailsData : function(){
            var detailsResponse = $rootScope.detailsData;
            var details = {
-               imgSrc: "../assets/img/notfoundSW.jpg",
+               imgSrc: "assets/img/notfoundSW.jpg",
                name: "",
                data: {}
            };
@@ -125,7 +136,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl",
                            resolve: {
-                                listData: function(listPageService){
+                                listResponse: function(listPageService){
                                     return listPageService.getListData();
                                 }
                             }
@@ -135,7 +146,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl",
                            resolve: {
-                                listData: function(listPageService){
+                                listResponse: function(listPageService){
                                     return listPageService.getListData();
                                 }
                             }
@@ -145,7 +156,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl",
                            resolve: {
-                                listData: function(listPageService){
+                                listResponse: function(listPageService){
                                     return listPageService.getListData();
                                 }
                             }
@@ -155,7 +166,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl",
                            resolve: {
-                                listData: function(listPageService){
+                                listResponse: function(listPageService){
                                     return listPageService.getListData();
                                 }
                             }
@@ -165,7 +176,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl",
                            resolve: {
-                                listData: function(listPageService){
+                                listResponse: function(listPageService){
                                     return listPageService.getListData();
                                 }
                             }
@@ -175,7 +186,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl",
                            resolve: {
-                                listData: function(listPageService){
+                                listResponse: function(listPageService){
                                     return listPageService.getListData();
                                 }
                             }
@@ -206,19 +217,23 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
 .controller("homeController", function () {
    
 })
-.controller("listController", function($scope, $http, $location, $rootScope, listData){
+.controller("listController", function($scope, $http, $location, $rootScope, listResponse){
     $rootScope.isNavBarVisible = true;
     $scope.path = $location.path();
     console.log($rootScope.isNavBarVisible);
     
-    if(listData && listData.results){
-        $scope.listData = listData.results;
-        $scope.nextUrl = listData.next;
-        $scope.prevUrl = listData.previous;
+    $scope.successCallback = function(response){
+        if(response && response.data && response.data.results){
+            $scope.listData = response.data.results;
+            $scope.nextUrl = response.data.next;
+            $scope.prevUrl = response.data.previous;
         
-        console.log("nextUrl - " + $scope.nextUrl);
-        console.log("prevUrl - " + $scope.prevUrl);
+            console.log("nextUrl - " + $scope.nextUrl);
+            console.log("prevUrl - " + $scope.prevUrl);
+        }
     }
+    
+    $scope.successCallback(listResponse);
     
     $scope.setDetailsData = function(selectedItemDetails){
         $rootScope.detailsData = selectedItemDetails;
@@ -226,12 +241,12 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
     
     $scope.getPreviousListData = function () {
         console.log($scope.prevUrl);
-        $http.get($scope.prevUrl).then(successCallback, errorCallback);
+        $http.get($scope.prevUrl).then($scope.successCallback);
     };
 
     $scope.getNextListData = function () {
         console.log($scope.nextUrl);
-        $http.get($scope.nextUrl).then(successCallback, errorCallback);
+        $http.get($scope.nextUrl).then($scope.successCallback);
     };
 })
 .controller("detailsController", function($scope, $http, $location, $rootScope, detailsData){
